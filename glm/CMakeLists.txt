@@ -21,8 +21,15 @@ endif()
 set(HAVE_DEVIL OFF)
 find_package(DevIL QUIET)
 if(IL_FOUND OR DevIL_FOUND)
-  message(STATUS "Found DevIL ${IL_INCLUDE_DIR}")
+  message(STATUS "Found DevIL")
   set(HAVE_DEVIL ON)
+endif()
+
+set(HAVE_LIBSDL_IMAGE OFF)
+find_package(SDL_image QUIET)
+if(SDLIMAGE_FOUND)
+  message(STATUS "Found SDL_image")
+  set(HAVE_LIBSDL_IMAGE ON)
 endif()
 
 ## Automatically generated files are stored here
@@ -42,7 +49,7 @@ add_library(glm ${SOURCE_FILES})
 
 target_include_directories(glm
   PUBLIC
-  "$<BUILD_INTERFACE:${generatedDir}>" 
+  "$<BUILD_INTERFACE:${generatedDir}>"
   ${OPENGL_INCLUDE_DIR})
 target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
 
