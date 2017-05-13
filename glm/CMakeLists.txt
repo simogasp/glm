@@ -33,7 +33,7 @@ if(SDLIMAGE_FOUND)
 endif()
 
 ## Automatically generated files are stored here
-set(generatedDir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
 set(SOURCE_FILES
   glm.c
@@ -49,7 +49,7 @@ add_library(glm ${SOURCE_FILES})
 
 target_include_directories(glm
   PUBLIC
-  "$<BUILD_INTERFACE:${generatedDir}>"
+  "$<BUILD_INTERFACE:${generated_dir}>"
   ${OPENGL_INCLUDE_DIR})
 target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
 
@@ -68,6 +68,66 @@ if(HAVE_LIBJPEG)
   target_link_libraries(glm PRIVATE ${JPEG_LIBRARIES})
 endif()
 
-set(configfile "${generatedDir}/config.h")
+set(configfile "${generated_dir}/config.h")
 configure_file("${CMAKE_SOURCE_DIR}/cmake/config.h.in"
                "${configfile}" @ONLY)
+
+set_target_properties(glm PROPERTIES
+  VERSION ${PROJECT_VERSION}
+  SOVERSION ${PROJECT_VERSION})
+
+####
+# Installation
+set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+set(include_install_dir "include/glm")
+
+# Configuration
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(targets_export_name "${PROJECT_NAME}Targets")
+set(namespace "${PROJECT_NAME}::")
+
+# Include module with fuction 'write_basic_package_version_file'
+include(CMakePackageConfigHelpers)
+
+# Configure '<PROJECT-NAME>ConfigVersion.cmake'
+write_basic_package_version_file(
+    "${version_config}" COMPATIBILITY SameMajorVersion
+)
+
+# Configure '<PROJECT-NAME>Config.cmake'
+configure_package_config_file(
+    "${CMAKE_SOURCE_DIR}/cmake/Config.cmake.in"
+    "${project_config}"
+    INSTALL_DESTINATION "${config_install_dir}"
+)
+
+# Targets:
+install(
+    TARGETS glm
+    EXPORT "${targets_export_name}"
+    LIBRARY DESTINATION "lib"
+    ARCHIVE DESTINATION "lib"
+    RUNTIME DESTINATION "bin"
+    INCLUDES DESTINATION "${include_install_dir}"
+)
+
+# Headers:
+install(
+    FILES "glm.h"
+    DESTINATION "${include_install_dir}"
+)
+
+
+# Config
+install(
+    FILES "${project_config}" "${version_config}"
+    DESTINATION "${config_install_dir}"
+)
+
+# Config
+install(
+    EXPORT "${targets_export_name}"
+    NAMESPACE "${namespace}"
+    DESTINATION "${config_install_dir}"
+)
