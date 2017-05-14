@@ -74,6 +74,7 @@ configure_file("${CMAKE_SOURCE_DIR}/cmake/config.h.in"
                "${configfile}" @ONLY)
 
 set_target_properties(glm PROPERTIES
+  DEBUG_POSTFIX "d"
   VERSION ${PROJECT_VERSION}
   SOVERSION ${PROJECT_VERSION})
 
