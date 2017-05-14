@@ -114,7 +114,7 @@ install(
 
 # Headers:
 install(
-    FILES "glm.h"
+    FILES "glm.h" ${configfile}
     DESTINATION "${include_install_dir}"
 )
 
