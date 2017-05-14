@@ -49,6 +49,7 @@ add_library(glm ${SOURCE_FILES})
 
 target_include_directories(glm
   PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/glm>"
   "$<BUILD_INTERFACE:${generated_dir}>"
   ${OPENGL_INCLUDE_DIR})
 target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
