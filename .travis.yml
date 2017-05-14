@@ -1,3 +1,6 @@
+dist: trusty
+sudo: required
+
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -35,10 +38,16 @@ before_install:
   - date -u
   - uname -a
   - export J='-j3'
+  - export GLM_SOURCE=${TRAVIS_BUILD_DIR}
+  - export GLM_BUILD=${GLM_SOURCE}/cmakebuild
+  - export GLM_INSTALL=${GLM_BUILD}/install
+  - export GLM_EXAMPLES_SOURCE=${TRAVIS_BUILD_DIR}/examples
+  - export GLM_EXAMPLES_BUILD=${GLM_EXAMPLES_SOURCE}/cmakebuild
+  - export GLM_EXAMPLES_INSTALL=${GLM_EXAMPLES_BUILD}/install
 
 install:
   - git submodule update --init --recursive
-  - if [ "$TRAVIS_OS_NAME" = osx ]; then brew install devil; else sudo apt-get install libdevil-dev; fi
+  - if [ "$TRAVIS_OS_NAME" = osx ]; then brew install devil freeglut; else sudo apt-get install libdevil-dev freeglut3 freeglut3-dev libxi-dev libxmu-dev; fi
 
 script:
   - if [[ ${COVERITY_SCAN_BRANCH} == 1 ]];
@@ -48,6 +57,32 @@ script:
     fi
   - ./autogen.sh
   - make $J
+  # CMake Build
+  # remove annoying warnings on clang for openGL
+  - cmake --version
+  - >
+     if [[ $CC == *"clang"* ]]; then
+       ADD_FLAG="-Wno-deprecated-declarations"
+     fi
+  - mkdir -p ${GLM_BUILD}
+  - cd ${GLM_BUILD}
+  - >
+      cmake -DCMAKE_INSTALL_PREFIX:PATH=${GLM_INSTALL} \
+          -DCMAKE_C_FLAGS=${ADD_FLAG} \
+          -DCMAKE_CXX_FLAGS=${ADD_FLAG} \
+          . ${GLM_SOURCE}
+  - make install $J VERBOSE=1
+
+  # now test it as 3rd party on the examples
+  - mkdir -p ${GLM_EXAMPLES_BUILD}
+  - cd ${GLM_EXAMPLES_BUILD}
+  - >
+      cmake -Dglm_DIR="${GLM_INSTALL}/lib/cmake/glm/" \
+          -DCMAKE_INSTALL_PREFIX:PATH=${GLM_EXAMPLES_INSTALL} \
+          -DCMAKE_C_FLAGS="${ADD_FLAG}" \
+          -DCMAKE_CXX_FLAGS="${ADD_FLAG}" \
+          . ${GLM_EXAMPLES_SOURCE}
+  - make install $J VERBOSE=1
 
 addons:
   coverity_scan:
