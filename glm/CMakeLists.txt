@@ -43,6 +43,13 @@ if(SDLIMAGE_FOUND)
   set(HAVE_LIBSDL_IMAGE ON)
 endif()
 
+set(HAVE_LIBSIMAGE OFF)
+find_package(Simage QUIET)
+if(Simage_FOUND)
+  message(STATUS "Found lib Simage")
+  set(HAVE_LIBSIMAGE ON)
+endif()
+
 ## Automatically generated files are stored here
 set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
@@ -82,6 +89,10 @@ endif()
 if(HAVE_LIBJPEG)
   target_include_directories(glm PRIVATE ${JPEG_INCLUDE_DIR})
   target_link_libraries(glm PRIVATE ${JPEG_LIBRARIES})
+endif()
+if(HAVE_LIBSIMAGE)
+  target_include_directories(glm PRIVATE ${Simage_INCLUDE_DIRS})
+  target_link_libraries(glm PRIVATE ${Simage_LIBRARIES})
 endif()
 
 set(configfile "${generated_dir}/config.h")
