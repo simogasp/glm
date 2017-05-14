@@ -77,10 +77,10 @@
 #define  PACKAGE_STRING "@PROJECT_NAME@ @PROJECT_VERSION@"
 
 /* Define to the one symbol short name of this package. */
-#cmakedefine PACKAGE_TARNAME
+#define PACKAGE_TARNAME "@PROJECT_NAME@"
 
 /* Define to the home page for this package. */
-#cmakedefine PACKAGE_URL
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "@PROJECT_VERSION@"

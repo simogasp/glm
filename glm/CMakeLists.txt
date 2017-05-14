@@ -10,6 +10,9 @@ else()
    project(glm VERSION 0.3.2 LANGUAGES C)
 endif()
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
+include(glmChecks)
+
 find_package(OpenGL REQUIRED)
 
 set(HAVE_LIBPNG OFF)
