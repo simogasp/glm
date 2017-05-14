@@ -51,6 +51,8 @@ target_include_directories(glm
   PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/glm>"
   "$<BUILD_INTERFACE:${generated_dir}>"
+  "$<INSTALL_INTERFACE:include/>"
+  "$<INSTALL_INTERFACE:include/glm>"
   ${OPENGL_INCLUDE_DIR})
 target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
 
