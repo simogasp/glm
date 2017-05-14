@@ -54,7 +54,9 @@ target_include_directories(glm
   "$<INSTALL_INTERFACE:include/>"
   "$<INSTALL_INTERFACE:include/glm>"
   ${OPENGL_INCLUDE_DIR})
-target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
+target_link_libraries(glm
+  PUBLIC ${OPENGL_LIBRARIES}
+  PRIVATE m)
 
 target_compile_definitions(glm PRIVATE "HAVE_CONFIG_H")
 
