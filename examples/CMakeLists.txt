@@ -1,6 +1,10 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 2.8.12)
 
-project(glmExamples LANGUAGES C CXX)
+if("${CMAKE_MAJOR_VERSION}" LESS 3)
+   project(glmExamples C CXX)
+else()
+   project(glmExamples LANGUAGES C CXX)
+endif()
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

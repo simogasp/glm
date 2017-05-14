@@ -1,6 +1,14 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 2.8.12)
 
-project(glm VERSION 0.3.2 LANGUAGES C)
+if(POLICY CMP0048)
+   cmake_policy(SET CMP0048 NEW)
+endif()
+if("${CMAKE_MAJOR_VERSION}" LESS 3)
+   set(PROJECT_VERSION "0.3.2")
+   project(glm C)
+else()
+   project(glm VERSION 0.3.2 LANGUAGES C)
+endif()
 
 find_package(OpenGL REQUIRED)
 
@@ -98,7 +106,7 @@ include(CMakePackageConfigHelpers)
 
 # Configure '<PROJECT-NAME>ConfigVersion.cmake'
 write_basic_package_version_file(
-    "${version_config}" COMPATIBILITY SameMajorVersion
+    "${version_config}" VERSION ${PROJECT_VERSION} COMPATIBILITY SameMajorVersion
 )
 
 # Configure '<PROJECT-NAME>Config.cmake'
