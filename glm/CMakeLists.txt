@@ -72,10 +72,11 @@ target_include_directories(glm
   "$<INSTALL_INTERFACE:include/>"
   "$<INSTALL_INTERFACE:include/glm>"
   ${OPENGL_INCLUDE_DIR})
-target_link_libraries(glm
-  PUBLIC ${OPENGL_LIBRARIES}
-  PRIVATE m)
+target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
 
+if(NOT MSVC)
+    target_link_libraries(glm PRIVATE m)
+endif()
 target_compile_definitions(glm PRIVATE "HAVE_CONFIG_H")
 
 if(HAVE_DEVIL)
