@@ -14,20 +14,20 @@ endif()
 set(EXECUTABLE_TARGETS "")
 
 add_executable(game_glutobj game_glutobj.c)
-target_link_libraries(game_glutobj PUBLIC OpenGL::GL GLUT::GLUT glm::glm)
+target_link_libraries(game_glutobj PUBLIC OpenGL::GL OpenGL::GLU GLUT::GLUT glm::glm)
 list(APPEND EXECUTABLE_TARGETS "game_glutobj")
 
 add_executable(glutobj glutobj.c)
-target_link_libraries(glutobj PUBLIC OpenGL::GL GLUT::GLUT glm::glm)
+target_link_libraries(glutobj PUBLIC OpenGL::GL OpenGL::GLU GLUT::GLUT glm::glm)
 list(APPEND EXECUTABLE_TARGETS "glutobj")
 
 add_executable(smooth smooth.c gltb.c gltx.c smooth.c trackball.c )
-target_link_libraries(smooth PUBLIC OpenGL::GL GLUT::GLUT glm::glm)
+target_link_libraries(smooth PUBLIC OpenGL::GL OpenGL::GLU GLUT::GLUT glm::glm)
 list(APPEND EXECUTABLE_TARGETS "smooth")
 
 if(glui_FOUND)
   add_executable(gluiobj gluiobj.cpp)
-  target_link_libraries(gluiobj PUBLIC OpenGL::GL GLUT::GLUT glm::glm glui::glui)
+  target_link_libraries(gluiobj PUBLIC OpenGL::GL OpenGL::GLU GLUT::GLUT glm::glm glui::glui)
   list(APPEND EXECUTABLE_TARGETS "gluiobj")
   install(TARGETS gluiobj
     DESTINATION bin)

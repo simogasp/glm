@@ -61,7 +61,7 @@ target_include_directories(glm
   "$<INSTALL_INTERFACE:include/>"
   "$<INSTALL_INTERFACE:include/glm>")
 
-target_link_libraries(glm PUBLIC OpenGL::GL)
+target_link_libraries(glm PUBLIC OpenGL::GL OpenGL::GLU)
 
 if(NOT MSVC)
     target_link_libraries(glm PRIVATE m)
