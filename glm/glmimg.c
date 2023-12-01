@@ -391,8 +391,8 @@ glmLoadTexture(const char *filename, GLboolean alpha, GLboolean repeat, GLboolea
     free(data);
 
     if (_glmTextureTarget == GL_TEXTURE_2D) {
-	*texcoordwidth = 1.;		/* texcoords are in [0,1] */
-	*texcoordheight = 1.;
+	*texcoordwidth = 1.f;		/* texcoords are in [0,1] */
+	*texcoordheight = 1.f;
     }
     else {
 	*texcoordwidth = xSize2;		/* size of texture coords */
