@@ -1,20 +1,20 @@
 # GLM
 
-##  Dependencies
+## Dependencies
 
 GLM depends only on OpenGL. Optionally, the library offer some functions to load different types of images to load the texture files. Some optional dependencies that are supported are:
 
-* libpng
-* libjpeg
-* DevIL
-* SDL_image
-* Simage
+- libpng
+- libjpeg
+- DevIL
+- SDL_image
+- Simage
 
 The examples that are provided show how the library can be used to load obj files and visualize them with different UI systems. The examples depends on
 
-* OpenGL
-* libglut / freeglut
-* libglui
+- OpenGL
+- libglut / freeglut
+- libglui
 
 If the relevant libraries are not found the examples are not built.
 
@@ -25,6 +25,7 @@ There are two possible building methods, one using the classic autoconf and auto
 ### autoconf
 
 Just execute the script `autogen.sh` and then
+
 ```bash
 make -j4
 make install
@@ -60,6 +61,7 @@ add_executable(glmtest yourfile.cpp)
 # add link to the library
 target_link_libraries(glmtest PUBLIC glm::glm)
 ```
+
 Check the `CMakeLists.txt` in the examples folder for an example.
 
 When you install glm, a file `glmConfig.cmake` is installed in `path/to/install/lib/cmake/glm/` that allows you to import the library in your CMake project by passing the location of `glmConfig.cmake` from the cmake command line:
