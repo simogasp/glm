@@ -70,7 +70,6 @@ endif()
 target_compile_definitions(glm PRIVATE "HAVE_CONFIG_H")
 if(APPLE)
   target_compile_definitions(glm PRIVATE "GL_SILENCE_DEPRECATION")
-  target_compile_options(glm PRIVATE "-Wno-deprecated-declarations")
 endif()
 
 if(HAVE_DEVIL)
