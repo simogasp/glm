@@ -39,6 +39,12 @@ if(APPLE)
     endforeach()
 endif()
 
+if(NOT MSVC)
+    foreach(target ${EXECUTABLE_TARGETS})
+        target_link_libraries(${target} PRIVATE m)
+    endforeach()
+endif()
+
 
 install(TARGETS game_glutobj glutobj smooth
   DESTINATION bin)
