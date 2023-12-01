@@ -170,7 +170,7 @@ glmReadPPM(const char* filename, GLboolean alpha, int* width, int* height, int *
     }
     
     /* grab all the image data in one fell swoop. */
-    image = (unsigned char*)malloc(sizeof(unsigned char)*w*h*3);
+    image = (unsigned char*)malloc(sizeof(unsigned char) * (unsigned long) w * (unsigned long) h * 3);
     fread(image, sizeof(unsigned char), w*h*3, fp);
     fclose(fp);
     
@@ -330,7 +330,8 @@ glmLoadTexture(const char *filename, GLboolean alpha, GLboolean repeat, GLboolea
     if((width != xSize2) || (height != ySize2)) {
 	/* TODO: use glTexSubImage2D instead */
 	DBG_(__glmWarning("scaling texture"));
-	rdata = (GLubyte*)malloc(sizeof(GLubyte) * xSize2 * ySize2 * pixelsize);
+	rdata = (GLubyte*)malloc(sizeof(GLubyte) * (unsigned long) xSize2 * (unsigned long) ySize2 *
+                             (unsigned long) pixelsize);
 	if (!rdata)
 	    return 0;
 	    
@@ -370,20 +371,20 @@ glmLoadTexture(const char *filename, GLboolean alpha, GLboolean repeat, GLboolea
 	if(gl_sgis_generate_mipmap) {
 	    DBG_(__glmWarning("sgis mipmapping"));
 	    glTexParameteri(_glmTextureTarget, GL_GENERATE_MIPMAP_SGIS, GL_TRUE );
-	    glTexImage2D(_glmTextureTarget, 0, type, xSize2, ySize2, 0, type, 
-			 GL_UNSIGNED_BYTE, data);
+	    glTexImage2D(_glmTextureTarget, 0, type, xSize2, ySize2, 0, (GLenum) type,
+                     GL_UNSIGNED_BYTE, data);
 	}
 	else
 #endif
 	    {
 		DBG_(__glmWarning("glu mipmapping"));
-		gluBuild2DMipmaps(_glmTextureTarget, type, xSize2, ySize2, type, 
-				  GL_UNSIGNED_BYTE, data);
+		gluBuild2DMipmaps(_glmTextureTarget, type, xSize2, ySize2, (GLenum) type,
+                          GL_UNSIGNED_BYTE, data);
 	    }
     }
     else {
-	glTexImage2D(_glmTextureTarget, 0, type, xSize2, ySize2, 0, type, 
-		     GL_UNSIGNED_BYTE, data);
+	glTexImage2D(_glmTextureTarget, 0, type, xSize2, ySize2, 0, (GLenum) type,
+                 GL_UNSIGNED_BYTE, data);
     }
    
    
@@ -395,8 +396,8 @@ glmLoadTexture(const char *filename, GLboolean alpha, GLboolean repeat, GLboolea
 	*texcoordheight = 1.f;
     }
     else {
-	*texcoordwidth = xSize2;		/* size of texture coords */
-	*texcoordheight = ySize2;
+	*texcoordwidth = (GLfloat) xSize2;		/* size of texture coords */
+	*texcoordheight = (GLfloat) ySize2;
     }
    
     return tex;

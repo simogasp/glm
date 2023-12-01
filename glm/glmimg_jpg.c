@@ -165,12 +165,12 @@ glmReadJPG(const char* filename, GLboolean alpha, int* width_ret, int* height_re
    * In this example, we need to make an output work buffer of the right size.
    */
   /* JSAMPLEs per row in output buffer */
-  row_stride = cinfo.output_width * cinfo.output_components;
+  row_stride = (int) (cinfo.output_width * (JDIMENSION) cinfo.output_components);
   /* Make a one-row-high sample array that will go away when done with image */
   rowbuffer = (*cinfo.mem->alloc_sarray)
-    ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
-  width = cinfo.output_width;
-  height = cinfo.output_height;
+    ((j_common_ptr) &cinfo, JPOOL_IMAGE, (JDIMENSION) row_stride, 1);
+  width = (int) cinfo.output_width;
+  height = (int) cinfo.output_height;
   buffer = currPtr = (unsigned char*) 
     malloc(width*height*cinfo.output_components);
   
@@ -183,7 +183,7 @@ glmReadJPG(const char* filename, GLboolean alpha, int* width_ret, int* height_re
   
   /* flip image upside down */
   if (buffer) {
-    currPtr = buffer + row_stride * (cinfo.output_height-1);  
+    currPtr = buffer + (JDIMENSION) row_stride * (cinfo.output_height - 1);
     
     while (cinfo.output_scanline < cinfo.output_height) {
       /* jpeg_read_scanlines expects an array of pointers to scanlines.
