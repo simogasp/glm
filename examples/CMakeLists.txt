@@ -1,10 +1,6 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.13)
 
-if("${CMAKE_MAJOR_VERSION}" LESS 3)
-   project(glmExamples C CXX)
-else()
-   project(glmExamples LANGUAGES C CXX)
-endif()
+project(glmExamples LANGUAGES C CXX)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
@@ -15,25 +11,32 @@ if(TARGET glm)
 else()
   find_package(glm CONFIG REQUIRED)
 endif()
+set(EXECUTABLE_TARGETS "")
 
 add_executable(game_glutobj game_glutobj.c)
-target_include_directories(game_glutobj PUBLIC ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
-target_link_libraries(game_glutobj PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} glm::glm)
+target_link_libraries(game_glutobj PUBLIC OpenGL::GL GLUT::GLUT glm::glm)
+list(APPEND EXECUTABLE_TARGETS "game_glutobj")
 
 add_executable(glutobj glutobj.c)
-target_include_directories(glutobj PUBLIC ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
-target_link_libraries(glutobj PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} glm::glm)
+target_link_libraries(glutobj PUBLIC OpenGL::GL GLUT::GLUT glm::glm)
+list(APPEND EXECUTABLE_TARGETS "glutobj")
 
 add_executable(smooth smooth.c gltb.c gltx.c smooth.c trackball.c )
-target_include_directories(smooth PUBLIC ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
-target_link_libraries(smooth PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} glm::glm)
+target_link_libraries(smooth PUBLIC OpenGL::GL GLUT::GLUT glm::glm)
+list(APPEND EXECUTABLE_TARGETS "smooth")
 
 if(glui_FOUND)
   add_executable(gluiobj gluiobj.cpp)
-  target_include_directories(gluiobj PUBLIC ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
-  target_link_libraries(gluiobj PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} glm::glm glui::glui)
+  target_link_libraries(gluiobj PUBLIC OpenGL::GL GLUT::GLUT glm::glm glui::glui)
+  list(APPEND EXECUTABLE_TARGETS "gluiobj")
   install(TARGETS gluiobj
     DESTINATION bin)
+endif()
+
+if(APPLE)
+    foreach(target ${EXECUTABLE_TARGETS})
+        target_compile_definitions(${target} PUBLIC GL_SILENCE_DEPRECATION)
+    endforeach()
 endif()
 
 

@@ -1,14 +1,3 @@
-cmake_minimum_required(VERSION 2.8.12)
-
-if(POLICY CMP0048)
-   cmake_policy(SET CMP0048 NEW)
-endif()
-if("${CMAKE_MAJOR_VERSION}" LESS 3)
-   set(PROJECT_VERSION "0.3.2")
-   project(glm C)
-else()
-   project(glm VERSION 0.3.2 LANGUAGES C)
-endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 include(glmChecks)
@@ -25,7 +14,7 @@ endif()
 set(HAVE_LIBJPEG OFF)
 find_package(JPEG QUIET)
 if(JPEG_FOUND)
-  message(STATUS "Found libjpeg")
+  message(STATUS "Found libjpeg: ${JPEG_VERSION}")
   set(HAVE_LIBJPEG ON)
 endif()
 
@@ -70,26 +59,29 @@ target_include_directories(glm
   "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/glm>"
   "$<BUILD_INTERFACE:${generated_dir}>"
   "$<INSTALL_INTERFACE:include/>"
-  "$<INSTALL_INTERFACE:include/glm>"
-  ${OPENGL_INCLUDE_DIR})
-target_link_libraries(glm PUBLIC ${OPENGL_LIBRARIES})
+  "$<INSTALL_INTERFACE:include/glm>")
+
+target_link_libraries(glm PUBLIC OpenGL::GL)
 
 if(NOT MSVC)
     target_link_libraries(glm PRIVATE m)
 endif()
+
 target_compile_definitions(glm PRIVATE "HAVE_CONFIG_H")
+if(APPLE)
+  target_compile_definitions(glm PRIVATE "GL_SILENCE_DEPRECATION")
+  target_compile_options(glm PRIVATE "-Wno-deprecated-declarations")
+endif()
 
 if(HAVE_DEVIL)
   target_include_directories(glm PRIVATE ${IL_INCLUDE_DIR})
   target_link_libraries(glm PRIVATE ${IL_LIBRARIES})
 endif()
 if(HAVE_LIBPNG)
-  target_include_directories(glm PRIVATE ${PNG_INCLUDE_DIRS})
-  target_link_libraries(glm PRIVATE ${PNG_LIBRARIES})
+  target_link_libraries(glm PRIVATE PNG::PNG)
 endif()
 if(HAVE_LIBJPEG)
-  target_include_directories(glm PRIVATE ${JPEG_INCLUDE_DIR})
-  target_link_libraries(glm PRIVATE ${JPEG_LIBRARIES})
+  target_link_libraries(glm PRIVATE JPEG::JPEG)
 endif()
 if(HAVE_LIBSDL_IMAGE)
   target_include_directories(glm PRIVATE ${SDL_IMAGE_INCLUDE_DIRS})
@@ -109,10 +101,12 @@ set_target_properties(glm PROPERTIES
   VERSION ${PROJECT_VERSION}
   SOVERSION ${PROJECT_VERSION})
 
+include(GNUInstallDirs)
+
 ####
 # Installation
-set(config_install_dir "lib/cmake/${PROJECT_NAME}")
-set(include_install_dir "include/glm")
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+set(include_install_dir "${CMAKE_INSTALL_INCLUDEDIR}/glm")
 
 # Configuration
 set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
@@ -139,9 +133,9 @@ configure_package_config_file(
 install(
     TARGETS glm
     EXPORT "${targets_export_name}"
-    LIBRARY DESTINATION "lib"
-    ARCHIVE DESTINATION "lib"
-    RUNTIME DESTINATION "bin"
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
     INCLUDES DESTINATION "${include_install_dir}"
 )
 
