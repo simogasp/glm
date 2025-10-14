@@ -1,6 +1,13 @@
 name: CI
 
-on: [push]
+on:
+  push:
+  pull_request:
+  # Allows manual triggering from GitHub UI or CLI
+  workflow_dispatch:
+  # Weekly build every Monday at 8 UTC
+  schedule:
+    - cron: "0 8 * * 1"
 
 jobs:
   build_linux:
