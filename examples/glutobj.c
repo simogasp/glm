@@ -529,7 +529,7 @@ void Keyboard(unsigned char key, int x, int y)
     case '-':
     case '_':
 	{
-	    FocusZ += 0.25;
+	    FocusZ += 0.25f;
 	    break;
 	}
     case 9:
