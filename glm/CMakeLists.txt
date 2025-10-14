@@ -53,6 +53,8 @@ set(SOURCE_FILES
   glmimg_sim.c)
 
 add_library(glm ${SOURCE_FILES})
+set(namespace "${PROJECT_NAME}::")
+add_library(${namespace}glm ALIAS glm)
 
 target_include_directories(glm
   PUBLIC
@@ -111,7 +113,6 @@ set(include_install_dir "${CMAKE_INSTALL_INCLUDEDIR}/glm")
 set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
 set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
 set(targets_export_name "${PROJECT_NAME}Targets")
-set(namespace "${PROJECT_NAME}::")
 
 # Include module with fuction 'write_basic_package_version_file'
 include(CMakePackageConfigHelpers)
