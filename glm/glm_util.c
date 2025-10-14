@@ -34,12 +34,11 @@ char *
 __glmStrStrip(const char *s)
 {
     int first;
-    int last = strlen(s)-1;
+    int last = (int)strlen(s)-1;
     int len;
     int i;
-    char * rets;
 
-    i=0;
+    i =0;
     while(i <= last &&
           (s[i]==' ' || s[i]=='\t' || s[i]=='\n' || s[i]=='\r'))
         i++;
@@ -52,7 +51,7 @@ __glmStrStrip(const char *s)
         i--;
     last = i;
     len = last-first+1;
-    rets = (char*)malloc(len+1); /* add a trailing 0 */
+    char *rets = (char *)malloc((size_t)len + 1); /* add a trailing 0 */
     memcpy(rets, s + first, len);
     rets[len] = 0;
     return rets;

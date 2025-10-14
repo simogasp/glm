@@ -950,17 +950,15 @@ GLfloat
 glmUnitize(GLMmodel* model)
 {
     GLuint  i;
-    GLfloat maxx, minx, maxy, miny, maxz, minz;
-    GLfloat cx, cy, cz, w, h, d;
-    GLfloat scale;
-    
+    GLfloat minx, miny, minz;
+
     assert(model);
     assert(model->vertices);
     
     /* get the max/mins */
-    maxx = minx = model->vertices[3 + 0];
-    maxy = miny = model->vertices[3 + 1];
-    maxz = minz = model->vertices[3 + 2];
+    GLfloat maxx = minx = model->vertices[3 + 0];
+    GLfloat maxy = miny = model->vertices[3 + 1];
+    GLfloat maxz = minz = model->vertices[3 + 2];
     for (i = 1; i <= model->numvertices; i++) {
         if (maxx < model->vertices[3 * i + 0])
             maxx = model->vertices[3 * i + 0];
@@ -979,17 +977,17 @@ glmUnitize(GLMmodel* model)
     }
     
     /* calculate model width, height, and depth */
-    w = glmAbs(maxx) + glmAbs(minx);
-    h = glmAbs(maxy) + glmAbs(miny);
-    d = glmAbs(maxz) + glmAbs(minz);
+    GLfloat w = glmAbs(maxx) + glmAbs(minx);
+    GLfloat h = glmAbs(maxy) + glmAbs(miny);
+    GLfloat d = glmAbs(maxz) + glmAbs(minz);
     
     /* calculate center of the model */
-    cx = (maxx + minx) / 2.f;
-    cy = (maxy + miny) / 2.f;
-    cz = (maxz + minz) / 2.f;
+    const GLfloat cx = (maxx + minx) / 2.f;
+    const GLfloat cy = (maxy + miny) / 2.f;
+    const GLfloat cz = (maxz + minz) / 2.f;
     
     /* calculate unitizing scale factor */
-    scale = 2.0 / glmMax(glmMax(w, h), d);
+    GLfloat scale = 2.f / glmMax(glmMax(w, h), d);
     
     /* translate around center then scale */
     for (i = 1; i <= model->numvertices; i++) {
@@ -1013,18 +1011,17 @@ glmUnitize(GLMmodel* model)
 GLvoid
 glmDimensions(GLMmodel* model, GLfloat* dimensions)
 {
-    GLuint i;
-    GLfloat maxx, minx, maxy, miny, maxz, minz;
+    GLfloat minx, miny, minz;
     
     assert(model);
     assert(model->vertices);
     assert(dimensions);
     
     /* get the max/mins */
-    maxx = minx = model->vertices[3 + 0];
-    maxy = miny = model->vertices[3 + 1];
-    maxz = minz = model->vertices[3 + 2];
-    for (i = 1; i <= model->numvertices; i++) {
+    GLfloat maxx = minx = model->vertices[3 + 0];
+    GLfloat maxy = miny = model->vertices[3 + 1];
+    GLfloat maxz = minz = model->vertices[3 + 2];
+    for (GLuint i = 1u; i <= model->numvertices; ++i) {
         if (maxx < model->vertices[3 * i + 0])
             maxx = model->vertices[3 * i + 0];
         if (minx > model->vertices[3 * i + 0])
@@ -1055,9 +1052,8 @@ glmDimensions(GLMmodel* model, GLfloat* dimensions)
 GLvoid
 glmScale(GLMmodel* model, GLfloat scale)
 {
-    GLuint i;
-    
-    for (i = 1; i <= model->numvertices; i++) {
+
+  for (GLuint i = 1; i <= model->numvertices; i++) {
         model->vertices[3 * i + 0] *= scale;
         model->vertices[3 * i + 1] *= scale;
         model->vertices[3 * i + 2] *= scale;
@@ -1073,12 +1069,11 @@ glmScale(GLMmodel* model, GLfloat scale)
 GLvoid
 glmReverseWinding(GLMmodel* model)
 {
-    GLuint i, swap;
     
     assert(model);
     
-    for (i = 0; i < model->numtriangles; i++) {
-        swap = T(i).vindices[0];
+    for (GLuint i = 0; i < model->numtriangles; ++i) {
+        GLuint swap = T(i).vindices[0];
         T(i).vindices[0] = T(i).vindices[2];
         T(i).vindices[2] = swap;
         
@@ -1096,14 +1091,14 @@ glmReverseWinding(GLMmodel* model)
     }
     
     /* reverse facet normals */
-    for (i = 1; i <= model->numfacetnorms; i++) {
+    for (GLuint i = 1; i <= model->numfacetnorms; ++i) {
         model->facetnorms[3 * i + 0] = -model->facetnorms[3 * i + 0];
         model->facetnorms[3 * i + 1] = -model->facetnorms[3 * i + 1];
         model->facetnorms[3 * i + 2] = -model->facetnorms[3 * i + 2];
     }
     
     /* reverse vertex normals */
-    for (i = 1; i <= model->numnormals; i++) {
+    for (GLuint i = 1; i <= model->numnormals; ++i) {
         model->normals[3 * i + 0] = -model->normals[3 * i + 0];
         model->normals[3 * i + 1] = -model->normals[3 * i + 1];
         model->normals[3 * i + 2] = -model->normals[3 * i + 2];
@@ -1237,10 +1232,9 @@ glmVertexNormals(GLMmodel* model, GLfloat angle, GLboolean keep_existing)
     
     /* calculate the average normal for each vertex */
     for (i = 1; i <= model->numvertices; i++) {
-        int avg_index;
 
-	/* calculate an average normal for this vertex by averaging the
-	   facet normal of every triangle this vertex is in */
+      /* calculate an average normal for this vertex by averaging the
+         facet normal of every triangle this vertex is in */
         node = members[i];
         if (!node)
             __glmWarning( "glmVertexNormals(): vertex %d w/o a triangle", i);
@@ -1267,7 +1261,7 @@ glmVertexNormals(GLMmodel* model, GLfloat angle, GLboolean keep_existing)
         }
         
         /* set the normal of this vertex in each triangle it is in */
-	avg_index = -1;
+	int avg_index = -1;
         node = members[i];
         while (node) {
 	    int j;
