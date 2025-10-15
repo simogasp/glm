@@ -7,6 +7,8 @@ else()
 endif()
 
 project(glm VERSION 0.3.3 LANGUAGES C)
+set(glm_VERSION ${PROJECT_VERSION})
+message(STATUS "GLM version: ${glm_VERSION}")
 
 if(GLM_IS_MAIN_PROJECT)
     set(GLM_INSTALL_DEFAULT ON)
