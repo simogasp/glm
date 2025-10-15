@@ -158,3 +158,4 @@ install(
     NAMESPACE "${namespace}"
     DESTINATION "${config_install_dir}"
 )
+target_compile_features(glm PUBLIC ${GLM_CXX_FEATURE})
