@@ -1,5 +1,5 @@
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(glmChecks)
 
 find_package(OpenGL REQUIRED)
@@ -58,7 +58,7 @@ add_library(${namespace}glm ALIAS glm)
 
 target_include_directories(glm
   PUBLIC
-  "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/glm>"
+  "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/glm>"
   "$<BUILD_INTERFACE:${generated_dir}>"
   "$<INSTALL_INTERFACE:include/>"
   "$<INSTALL_INTERFACE:include/glm>")
@@ -95,7 +95,7 @@ if(HAVE_LIBSIMAGE)
 endif()
 
 set(configfile "${generated_dir}/config.h")
-configure_file("${CMAKE_SOURCE_DIR}/cmake/config.h.in"
+configure_file("${PROJECT_SOURCE_DIR}/cmake/config.h.in"
                "${configfile}" @ONLY)
 
 set_target_properties(glm PROPERTIES
