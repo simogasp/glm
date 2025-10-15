@@ -69,3 +69,18 @@ When you install glm, a file `glmConfig.cmake` is installed in `path/to/install/
 ```bash
 cmake .. -Dglm_DIR=path/to/install/lib/cmake/glm/
 ```
+
+The library can also be consumed via CMake's FetchContent module. In your `CMakeLists.txt`, you can add:
+
+```cmake
+include(FetchContent)
+FetchContent_Declare(
+  glm
+  GIT_REPOSITORY https://github.com/simogasp/glm.git GIT_TAG v0.3.3)
+FetchContent_MakeAvailable(glm)
+
+add_executable(test-fetch test-fetch.cpp)
+target_link_libraries(test-fetch PRIVATE glm::glm)
+```
+
+Check (test-fetch)[./test-fetch] for an example of usage.
