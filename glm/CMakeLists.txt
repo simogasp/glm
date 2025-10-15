@@ -72,6 +72,7 @@ endif()
 target_compile_definitions(glm PRIVATE "HAVE_CONFIG_H")
 if(APPLE)
   target_compile_definitions(glm PRIVATE "GL_SILENCE_DEPRECATION")
+  target_compile_options(glm PRIVATE "-Wall;-Wextra;-pedantic;-Wno-comment;-Wshadow;-Wpedantic;-Wconversion;-Wmisleading-indentation;-Wsign-conversion")
 endif()
 
 if(HAVE_DEVIL)
@@ -102,60 +103,63 @@ set_target_properties(glm PROPERTIES
   VERSION ${PROJECT_VERSION}
   SOVERSION ${PROJECT_VERSION})
 
-include(GNUInstallDirs)
-
-####
-# Installation
-set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-set(include_install_dir "${CMAKE_INSTALL_INCLUDEDIR}/glm")
-
-# Configuration
-set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
-set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
-set(targets_export_name "${PROJECT_NAME}Targets")
-
-# Include module with fuction 'write_basic_package_version_file'
-include(CMakePackageConfigHelpers)
-
-# Configure '<PROJECT-NAME>ConfigVersion.cmake'
-write_basic_package_version_file(
-    "${version_config}" VERSION ${PROJECT_VERSION} COMPATIBILITY SameMajorVersion
-)
-
-# Configure '<PROJECT-NAME>Config.cmake'
-configure_package_config_file(
-    "${CMAKE_SOURCE_DIR}/cmake/Config.cmake.in"
-    "${project_config}"
-    INSTALL_DESTINATION "${config_install_dir}"
-)
-
-# Targets:
-install(
-    TARGETS glm
-    EXPORT "${targets_export_name}"
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-    INCLUDES DESTINATION "${include_install_dir}"
-)
-
-# Headers:
-install(
-    FILES "glm.h" ${configfile}
-    DESTINATION "${include_install_dir}"
-)
-
-
-# Config
-install(
-    FILES "${project_config}" "${version_config}"
-    DESTINATION "${config_install_dir}"
-)
-
-# Config
-install(
-    EXPORT "${targets_export_name}"
-    NAMESPACE "${namespace}"
-    DESTINATION "${config_install_dir}"
-)
 target_compile_features(glm PUBLIC ${GLM_CXX_FEATURE})
+
+if(GLM_INSTALL)
+    include(GNUInstallDirs)
+
+    ####
+    # Installation
+    set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+    set(include_install_dir "${CMAKE_INSTALL_INCLUDEDIR}/glm")
+
+    # Configuration
+    set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+    set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+    set(targets_export_name "${PROJECT_NAME}Targets")
+
+    # Include module with function 'write_basic_package_version_file'
+    include(CMakePackageConfigHelpers)
+
+    # Configure '<PROJECT-NAME>ConfigVersion.cmake'
+    write_basic_package_version_file(
+        "${version_config}" VERSION ${PROJECT_VERSION} COMPATIBILITY SameMajorVersion
+    )
+
+    # Configure '<PROJECT-NAME>Config.cmake'
+    configure_package_config_file(
+        "${CMAKE_SOURCE_DIR}/cmake/Config.cmake.in"
+        "${project_config}"
+        INSTALL_DESTINATION "${config_install_dir}"
+    )
+
+    # Targets:
+    install(
+        TARGETS glm
+        EXPORT "${targets_export_name}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        INCLUDES DESTINATION "${include_install_dir}"
+    )
+
+    # Headers:
+    install(
+        FILES "glm.h" ${configfile}
+        DESTINATION "${include_install_dir}"
+    )
+
+
+    # Config
+    install(
+        FILES "${project_config}" "${version_config}"
+        DESTINATION "${config_install_dir}"
+    )
+
+    # Config
+    install(
+        EXPORT "${targets_export_name}"
+        NAMESPACE "${namespace}"
+        DESTINATION "${config_install_dir}"
+    )
+endif()
