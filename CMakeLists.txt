@@ -16,7 +16,7 @@ else()
     set(GLM_BUILD_EXAMPLES_DEFAULT OFF)
 endif()
 
-option(BUILD_EXAMPLES "Build the examples" ${GLM_BUILD_EXAMPLES_DEFAULT})
+option(GLM_BUILD_EXAMPLES "Build the examples" ${GLM_BUILD_EXAMPLES_DEFAULT})
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 option(GLM_INSTALL "Install GLM library" ${GLM_INSTALL_DEFAULT})
 
@@ -43,6 +43,6 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 add_subdirectory(glm)
-if(BUILD_EXAMPLES)
+if(GLM_BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif()
