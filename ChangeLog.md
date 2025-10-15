@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2025-10-15
+
+### Added
+
+- Build system using CMake that works on Windows, macOS and Linux.
+- CI with GitHub Actions to build and run tests on Windows, macOS and Linux.
+- The library can also be consumed via CMake's FetchContent module.
+
+### Known issues
+
+- the library may not work if used in combination with GLM (OpenGL Mathematics) due to name clashes, both in the code (headers) and the build system (CMake targets).
+
 ## [0.3.2]
 
 <http://devernay.free.fr/hacks/glm/glm-0.3.2.tar.gz>
