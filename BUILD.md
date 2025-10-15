@@ -38,7 +38,7 @@ you can pass `--prefix=path/to/install`.
 ## CMake
 
 CMake has been tested on Linux and OsX, the minimum required version is 2.8.12.
-In order to build the library you can do
+To build the library, you can do
 
 ```bash
 mkdir build
@@ -47,7 +47,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=path/to/install
 make install -j4
 ```
 
-In order to use the library as a third party in a cmake project you can add this to your `CMakeLists.txt`:
+To use the library as a third party in a cmake project you can add this to your `CMakeLists.txt`:
 
 ```cmake
 # Find the package from the glmConfig.cmake
