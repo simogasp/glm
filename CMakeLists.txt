@@ -31,7 +31,8 @@ endif()
 if(NOT DEFINED CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD ${GLM_C_STANDARD})
   set(CMAKE_C_STANDARD_REQUIRED ON)
-  set(CMAKE_C_EXTENSIONS OFF)
+  # this MUST be ON otherwise there are segfaults
+  set(CMAKE_C_EXTENSIONS ON)
 endif()
 message(STATUS "Using C standard: ${CMAKE_C_STANDARD}")
 
