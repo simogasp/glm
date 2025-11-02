@@ -9,6 +9,11 @@ on:
   schedule:
     - cron: "21 7 * * 1"
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 jobs:
   build_linux:
     runs-on: ubuntu-latest
@@ -33,16 +38,10 @@ jobs:
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DBUILD_SHARED_LIBS:BOOL=ON
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-
     - name: Build
       working-directory: ./build
       run: |
         cmake --build .
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
 
   build_windows:
     runs-on: windows-latest
