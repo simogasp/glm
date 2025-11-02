@@ -9,6 +9,11 @@ on:
   schedule:
     - cron: "21 7 * * 1"
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 jobs:
   build_linux:
     runs-on: ubuntu-latest
