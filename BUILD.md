@@ -83,4 +83,4 @@ add_executable(test-fetch test-fetch.cpp)
 target_link_libraries(test-fetch PRIVATE glm::glm)
 ```
 
-Check (test-fetch)[./test-fetch] for an example of usage.
+Check [test-fetch](./test-fetch) for an example of usage.
