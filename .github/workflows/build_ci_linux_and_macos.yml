@@ -38,7 +38,7 @@ jobs:
       if: runner.os == 'macOS'
       with:
           # put your list of homebrew packages here for the dependencies you need
-          tools: cmake freeglut glm glew libpng jpeg-turbo libtiff
+          tools: cmake freeglut glm glew libpng jpeg-turbo libtiff XQuartz
 
     - name: Build (Release)
       uses: lukka/run-cmake@v10
