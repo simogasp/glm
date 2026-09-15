@@ -51,8 +51,8 @@ jobs:
     env:
       buildDir: '${{ github.workspace }}\build\'
       vcpkgDir: '${{ github.workspace }}\e\vcpkg'
-      # commit for version 2025.02.14
-      COMMIT_ID: ea2a964f9303270322cf3f2d51c265ba146c422d
+      # commit for version 2026.07.29
+      COMMIT_ID: 9e593bb18ea69cc5095e012465dcd675a822ed0d
 
     steps:
     - name: Checkout
@@ -75,7 +75,7 @@ jobs:
         # doNotCache: true
         # This is used to unbreak cached artifacts if for some reason dependencies fail to build,
         # the action does not notice it and saves broken artifacts.
-        appendedCacheKey: cache005
+        appendedCacheKey: cache006
 
     - name: vcpkg - Display installed packages
       run:
